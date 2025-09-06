@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Express Capital Associates</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -382,6 +384,24 @@
         .signature-instructions.error {
             color: #dc3545;
             font-weight: bold;
+        }
+
+        /* Loading indicator for PDF generation */
+        .pdf-loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: #17a2b8;
+        }
+        
+        .pdf-loading i {
+            margin-right: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         @media (max-width: 768px) {
@@ -782,11 +802,15 @@
                         <button type="button" id="clearSignature"><i class="fas fa-eraser"></i> Clear Signature</button>
                     </div>
                 </div>
+
+                <div class="pdf-loading" id="pdfLoading">
+                    <i class="fas fa-spinner"></i> Generating PDF, please wait...
+                </div>
                 
                 <div class="buttons">
                     <button type="submit"><i class="fas fa-paper-plane"></i> Submit Application</button>
                     <button type="button" class="btn-print"><i class="fas fa-print"></i> Print Form</button>
-                    <button type="button" class="btn-pdf"><i class="fas fa-file-pdf"></i> Download as PDF</button>
+                    <button type="button" class="btn-pdf" id="downloadPdf"><i class="fas fa-file-pdf"></i> Download as PDF</button>
                 </div>
             </form>
         </div>
@@ -810,7 +834,7 @@
                 e.preventDefault();
                 
                 // Check if signature is provided
-                if (!signaturePad.isEmpty()) {
+                if (!isSignaturePadEmpty()) {
                     alert('Form submitted successfully! In a real application, this would be sent to the server.');
                     // Here you would typically send the form data to your server
                 } else {
@@ -824,9 +848,7 @@
             });
             
             // PDF download functionality
-            document.querySelector('.btn-pdf').addEventListener('click', function() {
-                alert('PDF download functionality would be implemented here with a library like jsPDF');
-            });
+            document.getElementById('downloadPdf').addEventListener('click', generatePDF);
             
             // Ownership percentage change event
             const ownershipInput = document.getElementById('ownership');
@@ -981,6 +1003,225 @@
                     closeModal();
                 }
             });
+
+            // PDF Generation Function
+            function generatePDF() {
+                // Show loading indicator
+                document.getElementById('pdfLoading').style.display = 'block';
+                
+                // Use setTimeout to allow the UI to update before PDF generation
+                setTimeout(function() {
+                    try {
+                        const { jsPDF } = window.jspdf;
+                        const doc = new jsPDF('p', 'pt', 'a4');
+                        
+                        // Set initial coordinates
+                        let margin = 40;
+                        let y = margin;
+                        
+                        // Add header
+                        doc.setFontSize(20);
+                        doc.setTextColor(44, 119, 68);
+                        doc.text('Express Capital Associates', margin, y);
+                        y += 30;
+                        
+                        doc.setFontSize(16);
+                        doc.setTextColor(0, 0, 0);
+                        doc.text('Business Funding Application', margin, y);
+                        y += 40;
+                        
+                        // Page 1: Business Information
+                        doc.setFontSize(14);
+                        doc.setTextColor(44, 119, 68);
+                        doc.text('Page 1: Business Information', margin, y);
+                        y += 25;
+                        
+                        doc.setFontSize(12);
+                        doc.setTextColor(0, 0, 0);
+                        
+                        // Add business information fields
+                        const businessFields = [
+                            `Legal Corporate Name: ${document.getElementById('legalName').value}`,
+                            `DBA: ${document.getElementById('dba').value}`,
+                            `Physical Address: ${document.getElementById('address').value}`,
+                            `City: ${document.getElementById('city').value}, State: ${document.getElementById('state').value}, Zip: ${document.getElementById('zip').value}`,
+                            `Telephone: ${document.getElementById('telephone').value}`,
+                            `Federal Tax ID: ${document.getElementById('taxId').value}`,
+                            `Business Start Date: ${document.getElementById('startDate').value}`,
+                            `Website: ${document.getElementById('website').value}`,
+                            `Email: ${document.getElementById('email').value}`,
+                            `Entity Type: ${getSelectedRadioValue('entityType')}`,
+                            `Industry Type: ${document.getElementById('industry').value}`,
+                            `Monthly Gross Income: ${document.getElementById('income').value}`,
+                            `Funding Amount Request: ${document.getElementById('fundingAmount').value}`,
+                            `Funding Reason: ${document.getElementById('fundingReason').value}`
+                        ];
+                        
+                        for (let field of businessFields) {
+                            if (y > 700) {
+                                doc.addPage();
+                                y = margin;
+                            }
+                            doc.text(field, margin, y);
+                            y += 20;
+                        }
+                        
+                        // Page 2: Merchant/Owner Information
+                        doc.addPage();
+                        y = margin;
+                        
+                        doc.setFontSize(14);
+                        doc.setTextColor(44, 119, 68);
+                        doc.text('Page 2: Merchant/Owner Information', margin, y);
+                        y += 25;
+                        
+                        doc.setFontSize(12);
+                        doc.setTextColor(0, 0, 0);
+                        
+                        const merchantFields = [
+                            `Name: ${document.getElementById('ownerName').value}`,
+                            `Title: ${document.getElementById('ownerTitle').value}`,
+                            `Ownership Percentage: ${document.getElementById('ownership').value}%`,
+                            `Home Address: ${document.getElementById('ownerAddress').value}`,
+                            `City: ${document.getElementById('ownerCity').value}, State: ${document.getElementById('ownerState').value}, Zip: ${document.getElementById('ownerZip').value}`,
+                            `SSN: ${document.getElementById('ssn').value}`,
+                            `Date of Birth: ${document.getElementById('dob').value}`,
+                            `FICO Score: ${document.getElementById('fico').value}`,
+                            `Cell Number: ${document.getElementById('cell').value}`
+                        ];
+                        
+                        for (let field of merchantFields) {
+                            if (y > 700) {
+                                doc.addPage();
+                                y = margin;
+                            }
+                            doc.text(field, margin, y);
+                            y += 20;
+                        }
+                        
+                        // Page 3: Partner Information (if applicable)
+                        if (document.getElementById('partnerName').value) {
+                            doc.addPage();
+                            y = margin;
+                            
+                            doc.setFontSize(14);
+                            doc.setTextColor(44, 119, 68);
+                            doc.text('Page 3: Partner Information', margin, y);
+                            y += 25;
+                            
+                            doc.setFontSize(12);
+                            doc.setTextColor(0, 0, 0);
+                            
+                            const partnerFields = [
+                                `Partner Name: ${document.getElementById('partnerName').value}`,
+                                `Title: ${document.getElementById('partnerTitle').value}`,
+                                `Ownership Percentage: ${document.getElementById('partnerOwnership').value}%`,
+                                `Home Address: ${document.getElementById('partnerAddress').value}`,
+                                `City: ${document.getElementById('partnerCity').value}, State: ${document.getElementById('partnerState').value}, Zip: ${document.getElementById('partnerZip').value}`,
+                                `SSN: ${document.getElementById('partnerSsn').value}`,
+                                `Date of Birth: ${document.getElementById('partnerDob').value}`,
+                                `FICO Score: ${document.getElementById('partnerFico').value}`,
+                                `Cell Number: ${document.getElementById('partnerCell').value}`
+                            ];
+                            
+                            for (let field of partnerFields) {
+                                if (y > 700) {
+                                    doc.addPage();
+                                    y = margin;
+                                }
+                                doc.text(field, margin, y);
+                                y += 20;
+                            }
+                        }
+                        
+                        // Page 4: Documents
+                        doc.addPage();
+                        y = margin;
+                        
+                        doc.setFontSize(14);
+                        doc.setTextColor(44, 119, 68);
+                        doc.text('Page 4: Additional Documents Required', margin, y);
+                        y += 25;
+                        
+                        doc.setFontSize(12);
+                        doc.setTextColor(0, 0, 0);
+                        
+                        const documentList = [
+                            "✓ Copy of driver's license",
+                            "✓ 4 recent months of business bank statements",
+                            "✓ Copy of a voided check",
+                            "✓ Miscellaneous documents (if applicable)"
+                        ];
+                        
+                        for (let docItem of documentList) {
+                            if (y > 700) {
+                                doc.addPage();
+                                y = margin;
+                            }
+                            doc.text(docItem, margin, y);
+                            y += 20;
+                        }
+                        
+                        y += 10;
+                        doc.text('Email documents to: franz@expresscapitalassociate.com', margin, y);
+                        
+                        // Page 5: Signature
+                        doc.addPage();
+                        y = margin;
+                        
+                        doc.setFontSize(14);
+                        doc.setTextColor(44, 119, 68);
+                        doc.text('Page 5: Signature and Disclosure', margin, y);
+                        y += 25;
+                        
+                        doc.setFontSize(12);
+                        doc.setTextColor(0, 0, 0);
+                        
+                        const signatureFields = [
+                            `Full Name: ${document.getElementById('fullName').value}`,
+                            `Business Name: ${document.getElementById('businessName').value}`,
+                            `Phone Number: ${document.getElementById('phone').value}`,
+                            ``,
+                            `I acknowledge that I have read, understood, and agree to the terms and conditions.`
+                        ];
+                        
+                        for (let field of signatureFields) {
+                            if (y > 700) {
+                                doc.addPage();
+                                y = margin;
+                            }
+                            doc.text(field, margin, y);
+                            y += 20;
+                        }
+                        
+                        y += 20;
+                        doc.text('Signature: _________________________________________', margin, y);
+                        y += 30;
+                        doc.text('Date: ___________________', margin, y);
+                        
+                        // Save the PDF
+                        doc.save('Express_Capital_Application.pdf');
+                        
+                    } catch (error) {
+                        console.error('Error generating PDF:', error);
+                        alert('Error generating PDF. Please try again.');
+                    } finally {
+                        // Hide loading indicator
+                        document.getElementById('pdfLoading').style.display = 'none';
+                    }
+                }, 100);
+            }
+            
+            // Helper function to get selected radio value
+            function getSelectedRadioValue(name) {
+                const radios = document.getElementsByName(name);
+                for (let radio of radios) {
+                    if (radio.checked) {
+                        return radio.value;
+                    }
+                }
+                return '';
+            }
         });
     </script>
 </body>
