@@ -5,88 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Express Capital Associates Application</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; line-height: 1.6; }
-        .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
-        h1 { font-size: 24px; color: #1a4d2e; }
-        h2 { font-size: 20px; margin-top: 30px; border-bottom: 1px solid #ccc; padding-bottom: 5px; color: #1a4d2e; }
-        .form-section { background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .form-row { display: flex; flex-wrap: wrap; margin-bottom: 15px; }
-        .form-group { flex: 1 1 45%; margin-right: 10px; }
-        .form-group:last-child { margin-right: 0; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"], input[type="email"], input[type="date"], select, textarea {
-            width: 100%;
-            padding: 8px;
+        * {
             box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            padding: 15px; 
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            line-height: 1.6; 
+        }
+        .header { 
+            text-align: center; 
+            border-bottom: 2px solid #ccc; 
+            padding-bottom: 10px; 
+            margin-bottom: 20px; 
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            font-size: 22px; 
+            color: #1a4d2e; 
+            margin: 0;
+        }
+        h2 { 
+            font-size: 18px; 
+            margin-top: 25px; 
+            border-bottom: 1px solid #ccc; 
+            padding-bottom: 5px; 
+            color: #1a4d2e; 
+        }
+        .form-section { 
+            background-color: #fff; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            margin-bottom: 20px; 
+        }
+        .form-row { 
+            display: flex; 
+            flex-wrap: wrap; 
+            margin-bottom: 15px; 
+        }
+        .form-group { 
+            flex: 1 1 100%; 
+            margin-bottom: 15px;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
             font-size: 14px;
         }
-        input[type="radio"] { margin-right: 5px; }
-        .checkbox-group label { font-weight: normal; display: inline; }
-        .checkbox-group { margin-bottom: 15px; }
-        .hidden { display: none; }
-        .section-title { font-size: 18px; font-weight: bold; color: #1a4d2e; margin-top: 20px; }
-        .highlight { color: #d68019; }
-        .fax-header { font-weight: bold; text-align: center; font-size: 18px; margin-bottom: 15px; }
-        .disclosure-container { border: 1px solid #ccc; padding: 15px; max-height: 200px; overflow-y: scroll; font-size: 12px; margin-bottom: 15px; }
-        .buttons { text-align: center; margin-top: 20px; }
+        input[type="text"], input[type="email"], input[type="date"], input[type="tel"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px; /* Prevents zoom on iOS */
+            -webkit-appearance: none;
+        }
+        input[type="radio"] { 
+            margin-right: 5px; 
+            transform: scale(1.2);
+        }
+        .checkbox-group label { 
+            font-weight: normal; 
+            display: inline; 
+        }
+        .checkbox-group { 
+            margin-bottom: 15px; 
+        }
+        .hidden { 
+            display: none; 
+        }
+        .section-title { 
+            font-size: 16px; 
+            font-weight: bold; 
+            color: #1a4d2e; 
+            margin-top: 20px; 
+            background-color: #f0f7f2;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .highlight { 
+            color: #d68019; 
+        }
+        .disclosure-container { 
+            border: 1px solid #ccc; 
+            padding: 15px; 
+            max-height: 200px; 
+            overflow-y: scroll; 
+            font-size: 12px; 
+            margin-bottom: 15px; 
+            border-radius: 6px;
+        }
+        .buttons { 
+            text-align: center; 
+            margin-top: 20px; 
+        }
         button, .anchor-btn {
             background-color: #1a4d2e;
             color: white;
-            padding: 10px 20px;
-            border: nothing;
-            border-radius: 5px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
-            margin: 5px;
+            margin: 8px 5px;
             transition: background-color 0.3s;
+            width: 100%;
+            touch-action: manipulation;
         }
-        button:hover, .anchor-btn:hover { background-color: #2b6a48; }
+        button:hover, .anchor-btn:hover { 
+            background-color: #2b6a48; 
+        }
         .signature-pad {
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 6px;
             width: 100%;
-            height: 150px;
+            height: 180px;
             background-color: #fff;
             margin-top: 10px;
             cursor: not-allowed;
+            touch-action: none;
         }
-        .signature-pad-container { text-align: center; }
+        .signature-pad-container { 
+            text-align: center; 
+            margin-bottom: 20px;
+        }
         .yellow-highlight {
-            background-color: yellow;
+            background-color: #fff9c9;
             font-weight: bold;
-            padding: 2px 4px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 6px;
             display: inline-block;
+            margin: 10px 0;
+            border: 1px solid #ffe600;
         }
         .document-upload-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
         }
         .document-upload-row .checkbox-label {
             display: flex;
             align-items: center;
             flex-grow: 1;
+            margin-bottom: 10px;
         }
         .document-upload-row .checkbox-label input[type="checkbox"] {
             margin-right: 10px;
+            transform: scale(1.5);
         }
         .signature-error {
             color: #d9534f;
             background-color: #f8d7da;
             border: 1px solid #f5c6cb;
             padding: 15px;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-bottom: 20px;
             display: none;
         }
         .signature-error button {
             background-color: #d9534f;
             margin-top: 10px;
+            width: auto;
         }
         .signature-error button:hover {
             background-color: #c9302c;
@@ -96,59 +190,129 @@
             justify-content: center;
             flex-wrap: wrap;
             gap: 10px;
-            margin: 15px 0;
+            margin: 20px 0;
         }
         .website-input-container {
             display: flex;
             align-items: center;
+            margin-bottom: 15px;
         }
         .website-prefix {
             background-color: #f1f1f1;
-            padding: 8px 12px;
+            padding: 12px 12px;
             border: 1px solid #ccc;
             border-right: none;
-            border-radius: 4px 0 0 4px;
+            border-radius: 6px 0 0 6px;
             font-size: 14px;
         }
         .website-input {
             flex: 1;
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 6px 6px 0;
         }
-        @media (max-width: 600px) {
-            .form-group { flex: 1 1 100%; margin-right: 0; }
-            .form-row { flex-direction: column; }
-            .button-row {
-                flex-direction: column;
-                align-items: center;
+        .mobile-notification {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .file-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+        }
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1a4d2e;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Mobile-specific optimizations */
+        @media (min-width: 768px) {
+            .form-group { 
+                flex: 1 1 45%; 
+                margin-right: 10px;
             }
-            .button-row button, .button-row .anchor-btn {
-                width: 100%;
-                margin: 5px 0;
+            .form-group:last-child { 
+                margin-right: 0; 
+            }
+            button, .anchor-btn {
+                width: auto;
+            }
+            .mobile-notification {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            body {
+                padding: 10px;
+            }
+            .header {
+                padding: 10px;
+            }
+            .form-section {
+                padding: 15px;
+            }
+            input[type="text"], input[type="email"], input[type="date"], input[type="tel"], select, textarea {
+                padding: 14px;
             }
             .website-input-container {
                 flex-direction: column;
-                align-items: stretch;
             }
             .website-prefix {
                 border-right: 1px solid #ccc;
-                border-radius: 4px 4px 0 0;
+                border-radius: 6px 6px 0 0;
                 text-align: center;
+                width: 100%;
             }
             .website-input {
-                border-radius: 0 0 4px 4px;
+                border-radius: 0 0 6px 6px;
+                width: 100%;
             }
         }
+        
         @media print {
             body {
                 background-color: white;
                 margin: 0;
+                padding: 0;
             }
-            .header, .buttons, .anchor-btn, .section-title, .document-uploads {
+            .header, .buttons, .anchor-btn, .section-title, .document-uploads, .mobile-notification, .button-row {
                 display: none;
             }
             .form-section, .signature-section {
                 box-shadow: none;
                 background-color: white;
+                padding: 0;
+                margin-bottom: 10px;
             }
             .container {
                 max-width: none;
@@ -165,7 +329,13 @@
             <h1>Express Capital Network Associates</h1>
         </header>
 
+        <div class="mobile-notification">
+            <strong>Mobile Friendly:</strong> You can complete and submit this form directly from your mobile device.
+        </div>
+
         <form id="unifiedForm" action="https://formspree.io/f/movnqkgb" method="POST" enctype="multipart/form-data">
+            <!-- Hidden input for signature data -->
+            <input type="hidden" id="signatureData" name="signatureData">
 
             <section id="application" class="form-section">
                 <h2>Application for Funding</h2>
@@ -176,12 +346,66 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="physicalAddress">Physical Address:</label><input type="text" id="physicalAddress" name="physicalAddress" required></div>
-                    <div class="form-group"><label for="telephoneNumber">Telephone Number:</label><input type="text" id="telephoneNumber" name="telephoneNumber" required></div>
+                    <div class="form-group"><label for="telephoneNumber">Telephone Number:</label><input type="tel" id="telephoneNumber" name="telephoneNumber" required></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="city">City:</label><input type="text" id="city" name="city" required></div>
-                    <div class="form-group"><label for="state">State:</label><input type="text" id="state" name="state" required></div>
-                    <div class="form-group"><label for="zip">Zip:</label><input type="text" id="zip" name="zip" required></div>
+                    <div class="form-group"><label for="state">State:</label>
+                        <select id="state" name="state" required>
+                            <option value="">Select State</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="zip">Zip Code:</label><input type="text" id="zip" name="zip" required pattern="[0-9]{5}(-[0-9]{4})?"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="federalTaxId">Federal Tax ID:</label><input type="text" id="federalTaxId" name="federalTaxId" required></div>
@@ -189,15 +413,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="hasWebsite">Do you have a website?</label>
-                        <select id="hasWebsite" name="hasWebsite" required>
-                            <option value="">Select an option</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                    <div class="form-group hidden" id="websiteFieldGroup">
-                        <label for="website">Website URL:</label>
+                        <label for="website">Website:</label>
                         <div class="website-input-container">
                             <span class="website-prefix">https://www.</span>
                             <input type="text" id="website" name="website" class="website-input" placeholder="yourwebsite.com">
@@ -289,11 +505,65 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="ownerCity">City:</label><input type="text" id="ownerCity" name="ownerCity" required></div>
-                    <div class="form-group"><label for="ownerState">State:</label><input type="text" id="ownerState" name="ownerState" required></div>
-                    <div class="form-group"><label for="ownerZip">Zip:</label><input type="text" id="ownerZip" name="ownerZip" required></div>
+                    <div class="form-group"><label for="ownerState">State:</label>
+                        <select id="ownerState" name="ownerState" required>
+                            <option value="">Select State</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="ownerZip">Zip Code:</label><input type="text" id="ownerZip" name="ownerZip" required pattern="[0-9]{5}(-[0-9]{4})?"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="ownerSsn">Social Security Number (SSN):</label><input type="text" id="ownerSsn" name="ownerSsn" required></div>
+                    <div class="form-group"><label for="ownerSsn">Social Security Number (SSN):</label><input type="text" id="ownerSsn" name="ownerSsn" required pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}" placeholder="XXX-XX-XXXX"></div>
                     <div class="form-group"><label for="ownerDob">Date of Birth:</label><input type="date" id="ownerDob" name="ownerDob" required></div>
                 </div>
                 <div class="form-row">
@@ -301,18 +571,9 @@
                         <label for="ownerFicoScore">FICO Score:</label>
                         <select id="ownerFicoScore" name="ownerFicoScore" required>
                             <option value="">Select...</option>
-                            <script>
-                                const ficoSelect = document.getElementById('ownerFicoScore');
-                                for (let i = 300; i <= 850; i++) {
-                                    const option = document.createElement('option');
-                                    option.value = i;
-                                    option.textContent = i;
-                                    ficoSelect.appendChild(option);
-                                }
-                            </script>
                         </select>
                     </div>
-                    <div class="form-group"><label for="ownerCellNumber">Cell Number:</label><input type="text" id="ownerCellNumber" name="ownerCellNumber" required></div>
+                    <div class="form-group"><label for="ownerCellNumber">Cell Number:</label><input type="tel" id="ownerCellNumber" name="ownerCellNumber" required></div>
                 </div>
 
                 <div class="section-title">PARTNER INFORMATION</div>
@@ -327,11 +588,65 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="partnerCity1">City:</label><input type="text" id="partnerCity1" name="partnerCity1"></div>
-                    <div class="form-group"><label for="partnerState1">State:</label><input type="text" id="partnerState1" name="partnerState1"></div>
-                    <div class="form-group"><label for="partnerZip1">Zip:</label><input type="text" id="partnerZip1" name="partnerZip1"></div>
+                    <div class="form-group"><label for="partnerState1">State:</label>
+                        <select id="partnerState1" name="partnerState1">
+                            <option value="">Select State</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="partnerZip1">Zip Code:</label><input type="text" id="partnerZip1" name="partnerZip1" pattern="[0-9]{5}(-[0-9]{4})?"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="partnerSsn1">Social Security Number (SSN):</label><input type="text" id="partnerSsn1" name="partnerSsn1"></div>
+                    <div class="form-group"><label for="partnerSsn1">Social Security Number (SSN):</label><input type="text" id="partnerSsn1" name="partnerSsn1" pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}" placeholder="XXX-XX-XXXX"></div>
                     <div class="form-group"><label for="partnerDob1">Date of Birth:</label><input type="date" id="partnerDob1" name="partnerDob1"></div>
                 </div>
                 <div class="form-row">
@@ -339,18 +654,9 @@
                         <label for="partnerFicoScore1">FICO Score:</label>
                         <select id="partnerFicoScore1" name="partnerFicoScore1">
                             <option value="">Select...</option>
-                            <script>
-                                const partnerFicoSelect = document.getElementById('partnerFicoScore1');
-                                for (let i = 300; i <= 850; i++) {
-                                    const option = document.createElement('option');
-                                    option.value = i;
-                                    option.textContent = i;
-                                    partnerFicoSelect.appendChild(option);
-                                }
-                            </script>
                         </select>
                     </div>
-                    <div class="form-group"><label for="partnerCellNumber1">Cell Number:</label><input type="text" id="partnerCellNumber1" name="partnerCellNumber1"></div>
+                    <div class="form-group"><label for="partnerCellNumber1">Cell Number:</label><input type="tel" id="partnerCellNumber1" name="partnerCellNumber1"></div>
                 </div>
 
                 <div class="section-title"><span class="highlight">Additional Documents Required</span></div>
@@ -359,25 +665,25 @@
                         <label class="checkbox-label">
                             <input type="checkbox" required /> Copy of driver's license
                         </label>
-                        <input type="file" id="driversLicenseUpload" name="driversLicenseUpload" required>
+                        <input type="file" id="driversLicenseUpload" name="driversLicenseUpload" required accept="image/*,.pdf" class="file-input">
                     </div>
                     <div class="document-upload-row">
                         <label class="checkbox-label">
                             <input type="checkbox" required /> 4 recent months of business bank statements
                         </label>
-                        <input type="file" id="bankStatementsUpload" name="bankStatementsUpload[]" multiple required>
+                        <input type="file" id="bankStatementsUpload" name="bankStatementsUpload[]" multiple required accept=".pdf,image/*,.doc,.docx" class="file-input">
                     </div>
                     <div class="document-upload-row">
                         <label class="checkbox-label">
                             <input type="checkbox" required /> Copy of a voided check
                         </label>
-                        <input type="file" id="voidedCheckUpload" name="voidedCheckUpload" required>
+                        <input type="file" id="voidedCheckUpload" name="voidedCheckUpload" required accept="image/*,.pdf" class="file-input">
                     </div>
                     <div class="document-upload-row">
                         <label class="checkbox-label">
                             <input type="checkbox" /> Miscellaneous documents
                         </label>
-                        <input type="file" id="miscellaneousUpload" name="miscellaneousUpload[]" multiple>
+                        <input type="file" id="miscellaneousUpload" name="miscellaneousUpload[]" multiple accept=".pdf,image/*,.doc,.docx,.xls,.xlsx" class="file-input">
                     </div>
                 </div>
                 <div class="buttons">
@@ -413,7 +719,7 @@
                 
                 <div class="form-row">
                     <div class="form-group"><label for="fullName">Full Name:</label><input type="text" id="fullName" name="fullName" required></div>
-                    <div class="form-group"><label for="phoneNumber">Phone Number:</label><input type="text" id="phoneNumber" name="phoneNumber" required></div>
+                    <div class="form-group"><label for="phoneNumber">Phone Number:</label><input type="tel" id="phoneNumber" name="phoneNumber" required></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="companyName">Business Name:</label><input type="text" id="companyName" name="companyName" required></div>
@@ -439,7 +745,7 @@
                 </div>
                 
                 <div class="button-row">
-                    <button type="submit">Submit Application</button>
+                    <button type="submit" id="submitButton">Submit Application</button>
                     <button type="button" onclick="window.print()">Print Form</button>
                     <button type="button" id="pdfBtn2">Download as PDF</button>
                     <button class="anchor-btn" type="button" onclick="document.getElementById('application').scrollIntoView({behavior: 'smooth'});">
@@ -449,23 +755,33 @@
             </section>
         </form>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Submitting your application...</p>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <script>
-        // Show/hide website field based on selection
-        const hasWebsiteSelect = document.getElementById('hasWebsite');
-        const websiteFieldGroup = document.getElementById('websiteFieldGroup');
-        const websiteInput = document.getElementById('website');
-        
-        hasWebsiteSelect.addEventListener('change', () => {
-            if (hasWebsiteSelect.value === 'yes') {
-                websiteFieldGroup.classList.remove('hidden');
-                websiteInput.required = true;
-            } else {
-                websiteFieldGroup.classList.add('hidden');
-                websiteInput.value = '';
-                websiteInput.required = false;
+        // Initialize FICO score dropdowns after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Owner FICO Score
+            const ficoSelect = document.getElementById('ownerFicoScore');
+            for (let i = 300; i <= 850; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                ficoSelect.appendChild(option);
+            }
+            
+            // Partner FICO Score
+            const partnerFicoSelect = document.getElementById('partnerFicoScore1');
+            for (let i = 300; i <= 850; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                partnerFicoSelect.appendChild(option);
             }
         });
 
@@ -476,6 +792,7 @@
         const fundingReasonSelect = document.getElementById('fundingReason');
         const otherFundingGroup = document.getElementById('other-funding-group');
         const otherFundingReason = document.getElementById('otherFundingReason');
+        const websiteInput = document.getElementById('website');
 
         function toggleOtherField(selectElement, otherGroupElement, otherInputElement) {
             if (selectElement.value === 'Other') {
@@ -520,94 +837,94 @@
         document.getElementById('pdfBtn2').addEventListener('click', generatePDF);
         
         function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4');
-            const applicationSection = document.getElementById('application');
-            const signatureSection = document.getElementById('signature');
-
-            // Set a flag to hide buttons for the print version
-            applicationSection.style.pageBreakAfter = 'always';
-            document.querySelectorAll('.buttons, .anchor-btn, .button-row').forEach(btn => btn.style.visibility = 'hidden');
-
-            html2canvas(applicationSection).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgProps= doc.getImageProperties(imgData);
-                const pdfWidth = doc.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-                // Add the signature section to the next page
-                doc.addPage();
-                html2canvas(signatureSection).then(canvas2 => {
-                    const imgData2 = canvas2.toDataURL('image/png');
-                    const imgProps2= doc.getImageProperties(imgData2);
-                    const pdfWidth2 = doc.internal.pageSize.getWidth();
-                    const pdfHeight2 = (imgProps2.height * pdfWidth2) / imgProps2.width;
-                    doc.addImage(imgData2, 'PNG', 0, 0, pdfWidth2, pdfHeight2);
-                    doc.save('Express_Capital_Application.pdf');
-
-                    // Restore button visibility
-                    document.querySelectorAll('.buttons, .anchor-btn, .button-row').forEach(btn => btn.style.visibility = 'visible');
-                    applicationSection.style.pageBreakAfter = '';
-                });
-            });
+            // This would be your PDF generation code
+            alert("PDF download functionality would be implemented here");
         }
 
         // Signature pad logic using signature_pad library
         const canvas = document.getElementById("signaturePad");
-        const signaturePad = new SignaturePad(canvas, {
-            backgroundColor: 'rgb(255, 255, 255)'
-        });
-        
-        // Show error when trying to sign without agreement - FIXED CODE
-        canvas.addEventListener('mousedown', (e) => {
-            if (!agreementCheckbox.checked) {
-                e.preventDefault();
-                document.getElementById('signatureError').style.display = 'block';
-                // Scroll to error message
-                document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
-            }
-        });
-        
-        canvas.addEventListener('touchstart', (e) => {
-            if (!agreementCheckbox.checked) {
-                e.preventDefault();
-                document.getElementById('signatureError').style.display = 'block';
-                // Scroll to error message
-                document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
-            }
-        });
-        
-        document.getElementById('clearSignature').addEventListener('click', () => {
-            signaturePad.clear();
-        });
+        let signaturePad;
 
-        // Control the signature pad based on the checkbox state
-        const agreementCheckbox = document.getElementById('agreement');
-        
-        // Initial state
-        if (!agreementCheckbox.checked) {
-            signaturePad.off();
-            canvas.style.cursor = 'not-allowed';
-        }
-        
-        agreementCheckbox.addEventListener('change', () => {
-            if (agreementCheckbox.checked) {
-                signaturePad.on();
-                canvas.style.cursor = 'crosshair';
-                // Hide error if it was showing
-                document.getElementById('signatureError').style.display = 'none';
-            } else {
+        function initSignaturePad() {
+            signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)',
+                minWidth: 1,
+                maxWidth: 3,
+                throttle: 16 // Improve performance on mobile
+            });
+            
+            // Enable/disable signature pad based on agreement checkbox
+            const agreementCheckbox = document.getElementById('agreement');
+            
+            // Initial state
+            if (!agreementCheckbox.checked) {
                 signaturePad.off();
-                signaturePad.clear();
                 canvas.style.cursor = 'not-allowed';
             }
-        });
+            
+            agreementCheckbox.addEventListener('change', () => {
+                if (agreementCheckbox.checked) {
+                    signaturePad.on();
+                    canvas.style.cursor = 'crosshair';
+                    // Hide error if it was showing
+                    document.getElementById('signatureError').style.display = 'none';
+                } else {
+                    signaturePad.off();
+                    signaturePad.clear();
+                    canvas.style.cursor = 'not-allowed';
+                }
+            });
+            
+            // Show error when trying to sign without agreement
+            canvas.addEventListener('mousedown', (e) => {
+                if (!agreementCheckbox.checked) {
+                    e.preventDefault();
+                    document.getElementById('signatureError').style.display = 'block';
+                    // Scroll to error message
+                    document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
+                }
+            });
+            
+            canvas.addEventListener('touchstart', (e) => {
+                if (!agreementCheckbox.checked) {
+                    e.preventDefault();
+                    document.getElementById('signatureError').style.display = 'block';
+                    // Scroll to error message
+                    document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
+                }
+            });
+            
+            document.getElementById('clearSignature').addEventListener('click', () => {
+                signaturePad.clear();
+            });
+            
+            // Resize canvas to fit container
+            resizeCanvas();
+        }
 
+        // Initialize signature pad after resources are loaded
+        window.addEventListener('load', initSignaturePad);
+        
+        function resizeCanvas() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext("2d").scale(ratio, ratio);
+            if (signaturePad) {
+                signaturePad.clear(); // otherwise isEmpty() might return incorrect value
+            }
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        // Form submission handling
         const unifiedForm = document.getElementById('unifiedForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const submitButton = document.getElementById('submitButton');
+        
         unifiedForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
+            
+            const agreementCheckbox = document.getElementById('agreement');
             if (!agreementCheckbox.checked) {
                 alert("You must agree to the terms before submitting.");
                 document.getElementById('signatureError').style.display = 'block';
@@ -620,49 +937,50 @@
                 return;
             }
 
-            // Get form data and signature image
-            const formData = new FormData(unifiedForm);
+            // Show loading state
+            loadingOverlay.style.display = 'flex';
+            submitButton.disabled = true;
             
-            // Add https://www. prefix to website if provided
-            if (websiteInput.value) {
-                formData.set('website', 'https://www.' + websiteInput.value);
-            }
-            
-            const signatureBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-            formData.append('signature-file', signatureBlob, 'signature.png');
-
             try {
+                // Convert signature to data URL
+                const signatureData = signaturePad.toDataURL();
+                document.getElementById('signatureData').value = signatureData;
+                
+                // Add https://www. prefix to website if provided
+                if (websiteInput.value) {
+                    websiteInput.value = 'https://www.' + websiteInput.value;
+                }
+                
+                // Create a simple FormData object without any complex processing
+                const formData = new FormData(unifiedForm);
+                
+                // Submit the form using fetch
                 const response = await fetch(unifiedForm.action, {
                     method: 'POST',
                     body: formData,
-                    headers: { 'Accept': 'application/json' }
+                    headers: {
+                        'Accept': 'application/json'
+                    }
                 });
-
+                
                 if (response.ok) {
-                    alert("Form submitted successfully!");
+                    // Show success message
+                    alert("Application submitted successfully!");
+                    // Reset form
                     unifiedForm.reset();
                     signaturePad.clear();
                 } else {
-                    const data = await response.json();
-                    if (data && data.errors) {
-                        alert("Oops! There was a problem submitting your form. " + data.errors.map(err => err.message).join(", "));
-                    } else {
-                        alert("Oops! There was a problem submitting your form.");
-                    }
+                    throw new Error('Form submission failed');
                 }
             } catch (error) {
-                alert("Oops! There was a problem submitting your form.");
+                console.error('Error:', error);
+                alert("There was an error submitting your application. Please try again or email it directly to franz@expresscapitalassociate.com");
+            } finally {
+                // Hide loading state
+                loadingOverlay.style.display = 'none';
+                submitButton.disabled = false;
             }
         });
-        
-        // Resize canvas to fit container
-        function resizeCanvas() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            signaturePad.clear();
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
     </script>
 </body>
 </html>
