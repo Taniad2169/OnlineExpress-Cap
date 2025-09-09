@@ -14,6 +14,7 @@
             padding: 15px; 
             color: #333;
             background-color: #f5f5f5;
+            margin: 0;
         }
         .container { 
             max-width: 800px; 
@@ -70,7 +71,7 @@
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 16px; /* Prevents zoom on iOS */
+            font-size: 16px;
             -webkit-appearance: none;
         }
         input[type="radio"] { 
@@ -253,6 +254,36 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        .modal-content h3 {
+            margin-top: 0;
+            color: #1a4d2e;
+        }
+        .modal-content button {
+            margin-top: 20px;
+            width: auto;
+            min-width: 120px;
+        }
         
         /* Mobile-specific optimizations */
         @media (min-width: 768px) {
@@ -333,6 +364,7 @@
             <strong>Mobile Friendly:</strong> You can complete and submit this form directly from your mobile device.
         </div>
 
+        <!-- Form with correct Formspree endpoint -->
         <form id="unifiedForm" action="https://formspree.io/f/movnqkgb" method="POST" enctype="multipart/form-data">
             <!-- Hidden input for signature data -->
             <input type="hidden" id="signatureData" name="signatureData">
@@ -762,6 +794,15 @@
         <p>Submitting your application...</p>
     </div>
 
+    <!-- Success Modal -->
+    <div class="modal-backdrop" id="successModal">
+        <div class="modal-content">
+            <h3>Application Submitted Successfully!</h3>
+            <p>Your application has been received. We will review it and contact you shortly.</p>
+            <button onclick="document.getElementById('successModal').style.display = 'none'">OK</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <script>
         // Initialize FICO score dropdowns after DOM loads
@@ -920,6 +961,7 @@
         const unifiedForm = document.getElementById('unifiedForm');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const submitButton = document.getElementById('submitButton');
+        const successModal = document.getElementById('successModal');
         
         unifiedForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -964,8 +1006,8 @@
                 });
                 
                 if (response.ok) {
-                    // Show success message
-                    alert("Application submitted successfully!");
+                    // Show success modal
+                    successModal.style.display = 'flex';
                     // Reset form
                     unifiedForm.reset();
                     signaturePad.clear();
